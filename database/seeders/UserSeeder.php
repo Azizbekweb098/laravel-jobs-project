@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'role_id' => 2,
             'email' => 'webjam@gmail.com',
             'password' => Hash::make('Azizbek987'),
+            
         ]);
     }
 }
