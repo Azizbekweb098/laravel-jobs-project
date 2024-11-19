@@ -49,13 +49,15 @@
 
         </div>
         <div class="form-portion bg-stone-100 sm:w-[80%] w-[90%] mx-auto">
-            <form class="p-5 mt-5">
-             
+            <form class="p-5 mt-5" action="{{ route('client.store') }}" method="POST" enctype="multipart/form-data">
+
+                @csrf
+
                 <div class="md:p-5 p-1 sm:mt-1 mt-1">
 
                     <div class="md:mt-1 mt-2">
                         <label for="subject" class="text-xl">Subject : </label><br>
-                        <input type="text" name="subject" placeholder="Mention your area of concern"
+                        <input type="text" name="subjects" placeholder="Mention your area of concern"
                             class=" w-[100%] px-4 py-2 mt-1 rounded-xl">
                     </div>
                     <div class="mt-5">
@@ -65,6 +67,10 @@
                             autoComplete="off" spellCheck="false">
 
                         </textarea>
+                    </div>
+                    <div class="mt-5">
+                        <label for="file" class="text-xl">Questions / Message : </label><br>
+                         <input type="file" name="file">
                     </div>
                 </div>
                 <div class="btn mt-2 w-[100%] bg-transparent flex items-center">

@@ -15,7 +15,7 @@ class Application extends Model
         'user_id',
         'subjects',
         'message',
-        'message',
+        'file_up',
     ];
 
     public function user()

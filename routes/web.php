@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect('dashboard');
 })->middleware('auth');
+
+Route::resource('client', ClientController::class)->names('client');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
