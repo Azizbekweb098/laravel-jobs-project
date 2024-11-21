@@ -1,8 +1,10 @@
 <?php
 
-use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MakeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,15 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('dashboard');
-})->middleware('auth');
+Route::group(['middleware' =>  'auth'], function(){
+    Route::get('/', function () {
+        return redirect('dashboard');
+    });
 
-Route::resource('client', ClientController::class)->names('client');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
+    Route::get('/dashboard', [MakeController::class, 'dashboard'])->name('dashboard');
+    Route::resource('client', Application::class);
+
+
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,3 +37,4 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+

@@ -10,7 +10,7 @@ use Illuminate\Database\Seeder;
 class UserSeeder extends Seeder
 {
     /**
-     * Run the database seeds.
+     * Run the database seeds.`
      *
      * @return void
      */
@@ -28,7 +28,14 @@ class UserSeeder extends Seeder
             'role_id' => 2,
             'email' => 'webjam@gmail.com',
             'password' => Hash::make('Azizbek987'),
-            
+
+        ]);
+        User::create([
+            'name' => 'VEL',
+            'role_id' => 3,
+            'email' => 'obitouchiha@gmail.com',
+            'password' => Hash::make('Azizbek987'),
+
         ]);
     }
 }
