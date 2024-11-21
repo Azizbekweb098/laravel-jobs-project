@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ApplicationCreated;
 use App\Models\Application;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ApplicationController extends Controller
 {
@@ -35,37 +38,34 @@ class ApplicationController extends Controller
      */
     public function store(Request $request)
     {
-        // dd('Salom');
-
-        // Dastlab, validatsiyani amalga oshiring
+        // Validatsiya qilish
         $request->validate([
             'subjects' => 'required|max:255',
             'message' => 'required',
-            'file_up' => 'file|mimes:jpg,png,pdf',
+            'file_up' => 'file|mimes:jpg,png,pdf', // Faylni tekshirish
+        ]);
+
+        $path = null;
+        if ($request->hasFile('file_up')) {
+            $name = $request->file('file_up')->getClientOriginalName();
+            $path = $request->file('file_up')->storeAs('files', $name, 'public');
+        }
+
+        $application = Application::create([
+            'subjects' => $request->subjects,
+            'message' => $request->message,
+            'file_up' => $path,
+            'user_id' => auth()->id(),
         ]);
 
 
-           if ($request->hasFile('file_up'))
-           {
-            $name = $request->file('file_up')->getClientOriginalName();
-            $path = $request->file('file_up')->storeAs(
-                'files',
-                $name,
-                'public',
-            );
-           }
+        // Manager (admin) ga email yuborish
+        $manager = User::first(); // Birinchi foydalanuvchini olish (manager)
+        Mail::to($manager)->send(new ApplicationCreated($application)); // Email yuborish
 
-           $application = Application::create([
-            'subjects' => $request->subjects,
-            'message' => $request->message,
-            'file_up' => $path ?? null,
-            'user_id' => auth()->id(),
-           ]);
-
-
-
-           return redirect()->back()->with('success', 'Application created successfully.');
+        return redirect()->back()->with('success', 'Application created successfully');
     }
+
 
     /**
      * Display the specified resource.
