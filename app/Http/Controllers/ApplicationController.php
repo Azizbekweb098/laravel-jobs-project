@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\SengEmailJob;
 use App\Mail\ApplicationCreated;
 use App\Models\Application;
 use App\Models\User;
@@ -59,9 +60,7 @@ class ApplicationController extends Controller
         ]);
 
 
-        // Manager (admin) ga email yuborish
-        $manager = User::first(); // Birinchi foydalanuvchini olish (manager)
-        Mail::to($manager)->send(new ApplicationCreated($application)); // Email yuborish
+        dispatch(new SengEmailJob($application));
 
         return redirect()->back()->with('success', 'Application created successfully');
     }

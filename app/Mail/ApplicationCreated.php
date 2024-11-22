@@ -12,7 +12,7 @@ class ApplicationCreated extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $application;
+    public Application $application;
 
     public function __construct(Application $application)
     {
@@ -21,29 +21,18 @@ class ApplicationCreated extends Mailable
 
     public function build()
     {
-        return $this->from('webcoderazizbek@gmail.com', 'WebCoder')
+        $mail =  $this->from('webcoderazizbek@gmail.com', 'WebCoder')
             ->subject('Application Created')
-            ->view('emails.application-created')  // Faqat viewga murojaat qiling
-            ->attachFromStorageDisk('public', $this->application->file_up);  // Faylni saqlash
+            ->view('emails.application-created');
+
+if(! is_null($this->application->file_up)){
+     $mail->attachFromStorageDisk('public', $this->application->file_up);
+}
+
+
+return $mail;
     }
 
-    // Bu metodni o'chirish mumkin, chunki `build()` uni avtomatik tarzda bajaradi
-    // public function envelope()
-    // {
-    //     return new Envelope(
-    //         subject: 'Application Created',
-    //     );
-    // }
 
-    // public function content()
-    // {
-    //     return new Content(
-    //         view: 'emails.application-created', // To'g'ri format
-    //     );
-    // }
 
-    // public function attachments()
-    // {
-    //     return [];
-    // }
-}
+   }

@@ -25,7 +25,7 @@ Route::group(['middleware' =>  'auth'], function(){
 
 
     Route::get('/dashboard', [MakeController::class, 'dashboard'])->name('dashboard');
-    Route::resource('client', Application::class);
+    Route::resource('client', ApplicationController::class);
 
 
 });
